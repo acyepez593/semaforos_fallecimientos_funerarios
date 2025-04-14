@@ -330,7 +330,7 @@
                     $("#overlay").fadeOut(300);
 
                     $("#collapseTwo").collapse('show');
-                    
+
                     expedientes = response.expedientes;
                     protecciones = response.protecciones;
                     estados = response.estados;
@@ -356,6 +356,7 @@
                         "<th>Observaciones</th>"+
                         "<th>Respuesta</th>"+
                         "<th>Estado</th>"+
+                        "<th>Estado Semárofo</th>"+
                         "<th>Creado Por</th>"+
                         "<th>Acción</th>";
 
@@ -377,7 +378,7 @@
                         htmlDelete += @if (auth()->user()->can('expediente.delete')) '<a class="btn btn-danger text-white" href="javascript:void(0);" onclick="event.preventDefault(); deleteDialog('+expediente.id+')">Borrar</a> <form id="delete-form-'+expediente.id+'" action="'+rutaDelete+'" method="POST" style="display: none;">@method('DELETE')@csrf</form>' @else '' @endif;
 
                         innerHTML += 
-                            "<td>"+ contador+ "</td>";
+                            "<td>"+ contador+ "</td>"+
                             "<td>"+ expediente.victima+ "</td>"+
                             "<td>"+ expediente.id_de_proteccion+ "</td>"+
                             "<td>"+ expediente.proteccion_nombre+ "</td>"+
@@ -387,11 +388,10 @@
                             "<td>"+ expediente.responsables_nombres+ "</td>"+
                             "<td>"+ expediente.fecha_maxima_respuesta+ "</td>"+
                             "<td>"+ expediente.documentacion_solicitada+ "</td>"+
-                            "<td>"+ expediente.tipo_respuesta_nombre+ "</td>"+
                             "<td>"+ expediente.observaciones+ "</td>"+
+                            "<td>"+ expediente.tipo_respuesta_nombre+ "</td>"+
                             "<td>"+ expediente.estado_nombre+ "</td>"+
                             "<td>"+ expediente.semaforo_estado+ "</td>"+
-                            "<td>"+ expediente.responsable_nombre+ "</td>";
                             "<td>"+ expediente.creado_por_nombre+ "</td>";
                             if(expediente.esCreadorRegistro){
                                 innerHTML +="<td>" + htmlEdit + htmlDelete + "</td>";
@@ -400,6 +400,11 @@
                             }
 
                             tableRef.insertRow().innerHTML = innerHTML;
+                            let semaforo = semaforos.find(semaforo => semaforo.id === expediente.semaforo_id);
+                            if(semaforo){
+                                tableRef.children[contador-1].style.backgroundColor = semaforo.color;
+                            }
+                            
                             contador += 1;
                     }
                     

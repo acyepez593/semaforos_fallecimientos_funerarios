@@ -35,8 +35,8 @@ class ListaSeeder extends Seeder
         // Semaforos
         $Semaforos = ['SIN NOVEDAD','A TIEMPO','POR VENCER','VENCIDO'];
         $Colores = ['#ffffff', '#58d68d','#f4d03f','#e74c3c'];
-        $RangosInicial = [NULL, 4,3,0];
-        $RangosFinal = [NULL, 10000,1,-10000];
+        $RangosInicial = [NULL, 4,1,-10000];
+        $RangosFinal = [NULL, 10000,3,0];
         foreach ($Semaforos as $index => $value) {
             Semaforo::create(['color' => $Colores[$index], 'estado' => $value, 'rango_inicial' => $RangosInicial[$index], 'rango_final' => $RangosFinal[$index] ]);
         }

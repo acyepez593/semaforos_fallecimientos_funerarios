@@ -73,9 +73,9 @@ class ExpedientesController extends Controller
         $fecha_notificacion = Carbon::createFromFormat('Y-m-d', $request->fecha_notificacion);
 
         //determinar a que semaforización pertenece
-        $fecha_maxima_respuesta = Carbon::createFromFormat('Y-m-d', $request->fecha_maxima_respuesta);
-        $fecha_acutual = Carbon::now();
-        $semeforos = Semaforo::where('id',">",1)->get();
+        $fecha_maxima_respuesta = Carbon::createFromFormat('Y-m-d H:i:s', $request->fecha_maxima_respuesta. ' 00:00:00');
+        $fecha_acutual = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now()->format('Y-m-d'). ' 00:00:00');
+        $semaforos = Semaforo::where('id',">",1)->get();
 
         $diferencia_dias = $fecha_acutual->diffInDays($fecha_maxima_respuesta);
 
@@ -94,9 +94,11 @@ class ExpedientesController extends Controller
         $expediente->observaciones = $request->observaciones;
         $expediente->estado_id = $request->estado_id;
         $expediente->semaforo_id = 1;
-        foreach($semeforos as $semaforo){
-            if($diferencia_dias <= $semaforo->rango_inicial && $diferencia_dias >= $semaforo->rango_final){
-                $expediente->semaforo_id = $semaforo->id;
+        if($expediente->observaciones == null && $expediente->observaciones == ""){
+            foreach($semaforos as $semaforo){
+                if($semaforo->rango_inicial <= $diferencia_dias && $diferencia_dias <= $semaforo->rango_final){
+                    $expediente->semaforo_id = $semaforo->id;
+                }
             }
         }
         $expediente->creado_por_id = $creado_por_id;
@@ -111,7 +113,7 @@ class ExpedientesController extends Controller
         $this->checkAuthorization(auth()->user(), ['expediente.edit']);
 
         $expediente = Expediente::findOrFail($id);
-        if($expediente->responsable_id != Auth::id()){
+        if($expediente->creado_por_id != Auth::id()){
             abort(403, 'Lo sentimos !! Usted no está autorizado para realizar esta acción.');
         }
 
@@ -140,9 +142,9 @@ class ExpedientesController extends Controller
         $fecha_notificacion = Carbon::createFromFormat('Y-m-d', $request->fecha_notificacion);
 
         //determinar a que semaforización pertenece
-        $fecha_maxima_respuesta = Carbon::createFromFormat('Y-m-d', $request->fecha_maxima_respuesta);
-        $fecha_acutual = Carbon::now();
-        $semeforos = Semaforo::where('id',">",1)->get();
+        $fecha_maxima_respuesta = Carbon::createFromFormat('Y-m-d H:i:s', $request->fecha_maxima_respuesta. ' 00:00:00');
+        $fecha_acutual = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now()->format('Y-m-d'). ' 00:00:00');
+        $semaforos = Semaforo::where('id',">",1)->get();
 
         $diferencia_dias = $fecha_acutual->diffInDays($fecha_maxima_respuesta);
 
@@ -161,16 +163,20 @@ class ExpedientesController extends Controller
         $expediente->observaciones = $request->observaciones;
         $expediente->estado_id = $request->estado_id;
         $expediente->semaforo_id = 1;
-        foreach($semeforos as $semaforo){
-            if($diferencia_dias <= $semaforo->rango_inicial && $diferencia_dias >= $semaforo->rango_final){
-                $expediente->semaforo_id = $semaforo->id;
+        if($expediente->observaciones == null && $expediente->observaciones == ""){
+            foreach($semaforos as $semaforo){
+                if($semaforo->rango_inicial <= $diferencia_dias && $diferencia_dias <= $semaforo->rango_final){
+                    $expediente->semaforo_id = $semaforo->id;
+                }
             }
         }
+        
         $expediente->creado_por_id = $creado_por_id;
         $expediente->save();
 
         session()->flash('success', 'Expediente ha sido actualizado satisfactoriamente.');
-        return back();
+        return redirect()->route('admin.expedientes.index');
+        //return back();
     }
 
     public function destroy(int $id): JsonResponse
@@ -298,9 +304,17 @@ class ExpedientesController extends Controller
             $expediente->semaforo_estado = array_key_exists($expediente->semaforo_id, $semaforos_temp) ? $semaforos_temp[$expediente->semaforo_id] : "";
             $expediente->responsable_nombre = array_key_exists($expediente->responsable_id, $responsables_temp) ? $responsables_temp[$expediente->responsable_id] : "";
             $expediente->creado_por_nombre = array_key_exists($expediente->creado_por_id, $responsables_temp) ? $responsables_temp[$expediente->creado_por_id] : "";
-            $expediente->esCreadorRegistro = $responsable_id == $expediente->responsable_id ? true : false;
+            $expediente->esCreadorRegistro = $responsable_id == $expediente->creado_por_id ? true : false;
+            $nombres_resp = "";
+            $arrResp = explode(",", $expediente->responsables_ids);
+            foreach($arrResp as $ar){
+                $nombres_resp .= array_key_exists($ar, $responsables_temp) ? $responsables_temp[$ar]."," : "";
+            }
+            $expediente->responsables_nombres = $nombres_resp;
+            if(is_null($expediente->observaciones)){
+                $expediente->observaciones = "";
+            }
         }
-        
 
         $data['expedientes'] = $expedientes;
         $data['protecciones'] = $protecciones;
