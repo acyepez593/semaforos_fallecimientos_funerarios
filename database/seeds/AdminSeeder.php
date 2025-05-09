@@ -24,14 +24,14 @@ class AdminSeeder extends Seeder
             $admin->save();
         }
 
-        $admin = Admin::where('username', 'gabriela.paez')->first();
+        $admin = Admin::where('username', 'camila.toala')->first();
 
         if (is_null($admin)) {
             $admin           = new Admin();
-            $admin->name     = "GABRIELA PÁEZ";
-            $admin->email    = "gabriela.paez@sppat.gob.ec";
-            $admin->username = "gabriela.paez";
-            $admin->password = Hash::make('gabriela.paez123');
+            $admin->name     = "CAMILA TOALA";
+            $admin->email    = "camila.toala@sppat.gob.ec";
+            $admin->username = "camila.toala";
+            $admin->password = Hash::make('camila.toala123');
             $admin->save();
         }
 
@@ -87,17 +87,6 @@ class AdminSeeder extends Seeder
             $admin->email    = "jaime.aguilera@sppat.gob.ec";
             $admin->username = "jaime.aguilera";
             $admin->password = Hash::make('jaime.aguilera123');
-            $admin->save();
-        }
-
-        $admin = Admin::where('username', 'camila.toala')->first();
-
-        if (is_null($admin)) {
-            $admin           = new Admin();
-            $admin->name     = "CAMILA TOALA";
-            $admin->email    = "camila.toala@sppat.gob.ec";
-            $admin->username = "camila.toala";
-            $admin->password = Hash::make('camila.toala123');
             $admin->save();
         }
 
