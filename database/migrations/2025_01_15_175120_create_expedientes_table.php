@@ -34,6 +34,9 @@ return new class extends Migration
             $table->index('estado_id');
             $table->unsignedBigInteger('semaforo_id');
             $table->index('semaforo_id');
+            $table->string('tipo_ingreso_id')->nullable();
+            $table->index('tipo_ingreso_id');
+            $table->date('fecha_ingreso_expediente')->nullable();
             $table->unsignedBigInteger('creado_por_id');
             $table->index('creado_por_id');
             $table->boolean('es_historico')->default(false);

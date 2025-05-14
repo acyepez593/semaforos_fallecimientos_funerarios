@@ -101,6 +101,8 @@ class ExpedientesController extends Controller
                 }
             }
         }
+        $expediente->tipo_ingreso_id = $request->tipo_ingreso_id;
+        $expediente->fecha_ingreso_expediente = $request->fecha_ingreso_expediente;
         $expediente->creado_por_id = $creado_por_id;
         $expediente->save();
 
@@ -170,7 +172,8 @@ class ExpedientesController extends Controller
                 }
             }
         }
-        
+        $expediente->tipo_ingreso_id = $request->tipo_ingreso_id;
+        $expediente->fecha_ingreso_expediente = $request->fecha_ingreso_expediente;
         $expediente->creado_por_id = $creado_por_id;
         $expediente->save();
 
@@ -255,6 +258,12 @@ class ExpedientesController extends Controller
         }
         if(isset($filtroCreadoPorIdSearch) && !empty($filtroCreadoPorIdSearch)){
             $expedientes = $expedientes->whereIn('creado_por_id', $filtroCreadoPorIdSearch);
+        }
+        if(isset($filtroTipoIngresoIdSearch) && !empty($filtroTipoIngresoIdSearch)){
+            $expedientes = $expedientes->whereIn('tipo_ingreso_id', $filtroTipoIngresoIdSearch);
+        }
+        if(isset($filtrFechaIngresoExpedienteSearch) && !empty($filtrFechaIngresoExpedienteSearch)){
+            $expedientes = $expedientes->where('fecha_ingreso_expediente', 'like', '%'.$filtrFechaIngresoExpedienteSearch.'%');
         }
         
         $expedientes = $expedientes->orderBy('id', 'desc')->get();

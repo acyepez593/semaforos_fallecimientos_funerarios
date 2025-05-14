@@ -32,6 +32,12 @@ class ListaSeeder extends Seeder
             TipoRespuesta::create(['nombre' => $value]);
         }
 
+        // Tipos ingreso
+        $TiposIngreso = ['CURRIER','PRESENCIAL','OTZ'];
+        foreach ($TiposIngreso as $value) {
+            TipoRespuesta::create(['nombre' => $value]);
+        }
+
         // Semaforos
         $Semaforos = ['SIN NOVEDAD','A TIEMPO','POR VENCER','VENCIDO'];
         $Colores = ['#ffffff', '#58d68d','#f4d03f','#e74c3c'];
