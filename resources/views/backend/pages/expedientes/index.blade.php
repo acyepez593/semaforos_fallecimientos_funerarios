@@ -179,6 +179,26 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6 col-sm-12">
+                                                <label for="tipo_ingreso_id_search">Buscar por Tipo Ingreso:</label>
+                                                <select id="tipo_ingreso_id_search" name="tipo_ingreso_id_search" class="form-control selectpicker" data-live-search="true" multiple required>
+                                                    <option value="">Seleccione un Tipo de Ingreso</option>
+                                                    @foreach ($tiposIngreso as $key => $value)
+                                                        <option value="{{ $value->id }}">{{ $value->nombre }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label for="fecha_ingreso_expediente_search">Buscar por Fecha Ingreso Expediente</label>
+                                                <div class="datepicker date input-group">
+                                                    <input type="text" class="form-control" id="fecha_ingreso_expediente_search" name="fecha_ingreso_expediente_search" placeholder="">
+                                                    <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 col-sm-12">
                                                 <label for="creado_por_id_search">Buscar por Creador por:</label>
                                                 <select id="creado_por_id_search" name="creado_por_id_search" class="form-control selectpicker" data-live-search="true" multiple>
                                                     <option value="">Seleccione un Creado por</option>
@@ -321,6 +341,8 @@
                     documentacion_solicitada_search: $('#documentacion_solicitada_search').val(),
                     observaciones_search: $('#observaciones_search').val(),
                     tipo_respuesta_id_search: JSON.stringify($('#tipo_respuesta_id_search').val()),
+                    tipo_ingreso_id_search: JSON.stringify($('#tipo_ingreso_id_search').val()),
+                    fecha_ingreso_expediente_search: $('#fecha_ingreso_expediente_search').val(),
                     estado_id_search: JSON.stringify($('#estado_id_search').val()),
                     creado_por_id_search: JSON.stringify($('#creado_por_id_search').val()),
                     _token: '{{csrf_token()}}'
@@ -335,6 +357,7 @@
                     protecciones = response.protecciones;
                     estados = response.estados;
                     tiposRespuesta = response.tiposRespuesta;
+                    tiposIngreso = response.tiposIngreso;
                     semaforos = response.semaforos;
                     responsables = response.responsables;
 
@@ -356,6 +379,8 @@
                         "<th>Observaciones</th>"+
                         "<th>Respuesta</th>"+
                         "<th>Estado</th>"+
+                        "<th>Tipo de Ingreso</th>"+
+                        "<th>Fecha Ingreso Expediente</th>"+
                         "<th>Estado Semárofo</th>"+
                         "<th>Creado Por</th>"+
                         "<th>Acción</th>";
@@ -391,6 +416,8 @@
                             "<td>"+ expediente.observaciones+ "</td>"+
                             "<td>"+ expediente.tipo_respuesta_nombre+ "</td>"+
                             "<td>"+ expediente.estado_nombre+ "</td>"+
+                            "<td>"+ expediente.tipo_ingreso_nombre+ "</td>"+
+                            "<td>"+ expediente.fecha_ingreso_expediente+ "</td>"+
                             "<td>"+ expediente.semaforo_estado+ "</td>"+
                             "<td>"+ expediente.creado_por_nombre+ "</td>";
                             if(expediente.esCreadorRegistro){

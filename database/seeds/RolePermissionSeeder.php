@@ -121,6 +121,17 @@ class RolePermissionSeeder extends Seeder
                 ]
             ],
             [
+                'group_name' => 'tipoIngreso',
+                'permissions' => [
+                    // tipoIngreso Permissions
+                    'tipoIngreso.create',
+                    'tipoIngreso.view',
+                    'tipoIngreso.edit',
+                    'tipoIngreso.delete',
+                    
+                ]
+            ],
+            [
                 'group_name' => 'semaforo',
                 'permissions' => [
                     // semaforo Permissions

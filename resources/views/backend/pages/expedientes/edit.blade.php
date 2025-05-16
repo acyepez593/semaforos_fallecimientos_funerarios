@@ -188,6 +188,33 @@ Editar Expediente - Panel Expediente
                             </div>
                         </div>
 
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label for="tipo_ingreso_id">Seleccione un Tipo de Ingreso:</label>
+                                <select id="tipo_ingreso_id" name="tipo_ingreso_id" class="form-control selectpicker @error('tipo_ingreso_id') is-invalid @enderror" data-live-search="true">
+                                    <option value="">Seleccione un Tipo de Ingreso</option>
+                                    @foreach ($tiposIngreso as $key => $value)
+                                        <option value="{{ $key }}" {{ old('tipo_ingreso_id', $expediente->tipo_ingreso_id) == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                                @error('tipo_ingreso_id')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label for="fecha_ingreso_expediente">Fecha Ingreso Expediente</label>
+                                <div class="datepicker date input-group">
+                                    <input type="text" placeholder="Fecha Ingreso Expediente" class="form-control @error('fecha_ingreso_expediente') is-invalid @enderror" id="fecha_ingreso_expediente" name="fecha_ingreso_expediente" value="{{old('fecha_ingreso_expediente', $expediente->fecha_ingreso_expediente)}}">
+                                    <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                @error('fecha_ingreso_expediente')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
                         <input type="hidden" id="responsables" name="responsables" value="">
                         <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Guardar</button>
                         <a href="{{ route('admin.expedientes.index') }}" class="btn btn-secondary mt-4 pr-4 pl-4">Cancelar</a>

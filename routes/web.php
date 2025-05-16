@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\ExpedientesController;
 use App\Http\Controllers\Backend\ProteccionesController;
 use App\Http\Controllers\Backend\TiposRespuestaController;
+use App\Http\Controllers\Backend\TiposIngresoController;
 use App\Http\Controllers\Backend\SemaforosController;
 use App\Http\Controllers\Backend\ReportesController;
 
@@ -33,8 +34,7 @@ Auth::routes();
 
 Route::get('/', 'HomeController@redirectAdmin')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::post('/getReporteByNumeroCaja','backend\ReportesController@getReporteByNumeroCaja')->middleware('auth:admin');
-
+Route::post('/generarReporteExpedientesByFilters','backend\ReportesController@generarReporteExpedientesByFilters')->middleware('auth:admin');
 
 Route::post('/getExpedientesByFilters','backend\ExpedientesController@getExpedientesByFilters')->middleware('auth:admin');
 
@@ -49,6 +49,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::resource('protecciones', ProteccionesController::class);
     Route::resource('estados', EstadosController::class);
     Route::resource('tiposRespuesta', TiposRespuestaController::class);
+    Route::resource('tiposIngreso', TiposIngresoController::class);
     Route::resource('semaforos', SemaforosController::class);
 
     Route::resource('expedientes', ExpedientesController::class);

@@ -12,6 +12,7 @@ use App\Models\Estado;
 use App\Models\Proteccion;
 use App\Models\Expediente;
 use App\Models\Semaforo;
+use App\Models\TipoIngreso;
 use App\Models\TipoRespuesta;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
@@ -32,6 +33,7 @@ class ExpedientesController extends Controller
         $protecciones = Proteccion::get(["nombre", "id"]);
         $estados = Estado::get(["nombre", "id"]);
         $tiposRespuesta = TipoRespuesta::get(["nombre", "id"]);
+        $tiposIngreso = TipoIngreso::get(["nombre", "id"]);
         $semaforos = Semaforo::get(["estado", "id"]);
 
         $responsables = Admin::get(["name", "id"]);
@@ -40,6 +42,7 @@ class ExpedientesController extends Controller
             'protecciones' => $protecciones,
             'estados' => $estados,
             'tiposRespuesta' => $tiposRespuesta,
+            'tiposIngreso' => $tiposIngreso,
             'semaforos' => $semaforos,
             'responsables' => $responsables
         ]);
@@ -52,6 +55,7 @@ class ExpedientesController extends Controller
         $protecciones = Proteccion::get(["nombre", "id"])->pluck('nombre','id');
         $estados = Estado::get(["nombre", "id"])->pluck('nombre','id');
         $tiposRespuesta = TipoRespuesta::get(["nombre", "id"])->pluck('nombre','id');
+        $tiposIngreso = TipoIngreso::get(["nombre", "id"])->pluck('nombre','id');
         $semaforos = Semaforo::get(["estado", "id"])->pluck('estado','id');
         $responsables = Admin::get(["name", "id"])->pluck('name','id');
 
@@ -59,6 +63,7 @@ class ExpedientesController extends Controller
             'protecciones' => $protecciones,
             'estados' => $estados,
             'tiposRespuesta' => $tiposRespuesta,
+            'tiposIngreso' => $tiposIngreso,
             'semaforos' => $semaforos,
             'responsables' => $responsables,
             'roles' => Role::all(),
@@ -122,6 +127,7 @@ class ExpedientesController extends Controller
         $protecciones = Proteccion::get(["nombre", "id"])->pluck('nombre','id');
         $estados = Estado::get(["nombre", "id"])->pluck('nombre','id');
         $tiposRespuesta = TipoRespuesta::get(["nombre", "id"])->pluck('nombre','id');
+        $tiposIngreso = TipoIngreso::get(["nombre", "id"])->pluck('nombre','id');
         $semaforos = Semaforo::get(["estado", "id"])->pluck('estado','id');
         $responsables = Admin::get(["name", "id"])->pluck('name','id');
 
@@ -130,6 +136,7 @@ class ExpedientesController extends Controller
             'protecciones' => $protecciones,
             'estados' => $estados,
             'tiposRespuesta' => $tiposRespuesta,
+            'tiposIngreso' => $tiposIngreso,
             'semaforos' => $semaforos,
             'responsables' => $responsables,
             'roles' => Role::all(),
@@ -217,6 +224,8 @@ class ExpedientesController extends Controller
         $filtroDocumentacionSolicitadaSearch = $request->documentacion_solicitada_search;
         $filtroObservacionesSearch = $request->observaciones_search;
         $filtroTipoRespuestaIdSearch = json_decode($request->tipo_respuesta_id_search, true);
+        $filtroTipoIngresoIdSearch = json_decode($request->tipo_ingreso_id_search, true);
+        $filtroFechaIngresoExpedienteSearch = $request->fecha_ingreso_expediente_search;
         $filtroEstadoIdSearch = json_decode($request->estado_id_search, true);
         $filtroCreadoPorIdSearch = json_decode($request->creado_por_id_search, true);
         
@@ -262,8 +271,8 @@ class ExpedientesController extends Controller
         if(isset($filtroTipoIngresoIdSearch) && !empty($filtroTipoIngresoIdSearch)){
             $expedientes = $expedientes->whereIn('tipo_ingreso_id', $filtroTipoIngresoIdSearch);
         }
-        if(isset($filtrFechaIngresoExpedienteSearch) && !empty($filtrFechaIngresoExpedienteSearch)){
-            $expedientes = $expedientes->where('fecha_ingreso_expediente', 'like', '%'.$filtrFechaIngresoExpedienteSearch.'%');
+        if(isset($filtroFechaIngresoExpedienteSearch) && !empty($filtroFechaIngresoExpedienteSearch)){
+            $expedientes = $expedientes->where('fecha_ingreso_expediente', 'like', '%'.$filtroFechaIngresoExpedienteSearch.'%');
         }
         
         $expedientes = $expedientes->orderBy('id', 'desc')->get();
@@ -271,6 +280,7 @@ class ExpedientesController extends Controller
         $protecciones = Proteccion::all();
         $estados = Estado::all();
         $tiposRespuesta = TipoRespuesta::all();
+        $tiposIngreso = TipoIngreso::all();
         $semaforos = Semaforo::all();
         $responsables = Admin::all();
 
@@ -287,6 +297,11 @@ class ExpedientesController extends Controller
         $tipos_respuesta_temp = [];
         foreach($tiposRespuesta as $tipoRespuesta){
             $tipos_respuesta_temp[$tipoRespuesta->id] = $tipoRespuesta->nombre;
+        }
+
+        $tipos_ingreso_temp = [];
+        foreach($tiposIngreso as $tipoIngreso){
+            $tipos_ingreso_temp[$tipoIngreso->id] = $tipoIngreso->nombre;
         }
 
         $semaforos_temp = [];
@@ -310,6 +325,7 @@ class ExpedientesController extends Controller
             $expediente->proteccion_nombre = array_key_exists($expediente->proteccion_id, $protecciones_temp) ? $protecciones_temp[$expediente->proteccion_id] : "";
             $expediente->estado_nombre = array_key_exists($expediente->estado_id, $estados_temp) ? $estados_temp[$expediente->estado_id] : "";
             $expediente->tipo_respuesta_nombre = array_key_exists($expediente->tipo_respuesta_id, $tipos_respuesta_temp) ? $tipos_respuesta_temp[$expediente->tipo_respuesta_id] : "";
+            $expediente->tipo_ingreso_nombre = array_key_exists($expediente->tipo_ingreso_id, $tipos_ingreso_temp) ? $tipos_ingreso_temp[$expediente->tipo_ingreso_id] : "";
             $expediente->semaforo_estado = array_key_exists($expediente->semaforo_id, $semaforos_temp) ? $semaforos_temp[$expediente->semaforo_id] : "";
             $expediente->responsable_nombre = array_key_exists($expediente->responsable_id, $responsables_temp) ? $responsables_temp[$expediente->responsable_id] : "";
             $expediente->creado_por_nombre = array_key_exists($expediente->creado_por_id, $responsables_temp) ? $responsables_temp[$expediente->creado_por_id] : "";
@@ -329,6 +345,7 @@ class ExpedientesController extends Controller
         $data['protecciones'] = $protecciones;
         $data['estados'] = $estados;
         $data['tiposRespuesta'] = $tiposRespuesta;
+        $data['tiposIngreso'] = $tiposIngreso;
         $data['semaforos'] = $semaforos;
         $data['responsables'] = $responsables;
         $data['roles'] = Role::all();

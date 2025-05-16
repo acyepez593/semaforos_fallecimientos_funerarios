@@ -4,6 +4,7 @@ use App\Models\Proteccion;
 use App\Models\Estado;
 use App\Models\TipoRespuesta;
 use App\Models\Semaforo;
+use App\Models\TipoIngreso;
 use Illuminate\Database\Seeder;
 
 class ListaSeeder extends Seeder
@@ -35,7 +36,7 @@ class ListaSeeder extends Seeder
         // Tipos ingreso
         $TiposIngreso = ['CURRIER','PRESENCIAL','OTZ'];
         foreach ($TiposIngreso as $value) {
-            TipoRespuesta::create(['nombre' => $value]);
+            TipoIngreso::create(['nombre' => $value]);
         }
 
         // Semaforos

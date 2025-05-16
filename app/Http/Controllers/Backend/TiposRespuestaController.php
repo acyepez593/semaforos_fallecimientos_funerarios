@@ -54,7 +54,7 @@ class TiposRespuestaController extends Controller
         ]);
     }
 
-    public function update(RespuestaRequest $request, int $id): RedirectResponse
+    public function update(TipoRespuestaRequest $request, int $id): RedirectResponse
     {
         $this->checkAuthorization(auth()->user(), ['tipoRespuesta.edit']);
 

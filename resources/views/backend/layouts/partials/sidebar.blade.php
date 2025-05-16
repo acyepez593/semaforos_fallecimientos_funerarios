@@ -119,6 +119,24 @@
                             </li>
                             @endif
 
+                            @if ($usr->can('tipoIngreso.create') || $usr->can('tipoIngreso.view') ||  $usr->can('tipoIngreso.edit') ||  $usr->can('tipoIngreso.delete'))
+                            <li>
+                                <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-list"></i><span>
+                                    Tipos Ingreso
+                                </span></a>
+                                <ul class="collapse {{ Route::is('admin.tiposIngreso.create') || Route::is('admin.tiposIngreso.index') || Route::is('admin.tiposIngreso.edit') || Route::is('admin.tiposIngreso.show') ? 'in' : '' }}">
+                                    
+                                    @if ($usr->can('tipoIngreso.view'))
+                                        <li class="{{ Route::is('admin.tiposIngreso.index')  || Route::is('admin.tiposIngreso.edit') ? 'active' : '' }}"><a href="{{ route('admin.tiposIngreso.index') }}">Todos los Tipos Ingreso</a></li>
+                                    @endif
+
+                                    @if ($usr->can('tipoIngreso.create'))
+                                        <li class="{{ Route::is('admin.tiposIngreso.create')  ? 'active' : '' }}"><a href="{{ route('admin.tiposIngreso.create') }}">Crear Tipo Ingreso</a></li>
+                                    @endif
+                                </ul>
+                            </li>
+                            @endif
+
                         </ul>
                     </li>
                     @endif
@@ -154,6 +172,19 @@
 
                             @if ($usr->can('expediente.create'))
                                 <li class="{{ Route::is('admin.expedientes.create')  ? 'active' : '' }}"><a href="{{ route('admin.expedientes.create') }}">Crear Registro</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                    @endif
+
+                    @if ($usr->can('reporte.view') || $usr->can('expediente.download'))
+                    <li>
+                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-download"></i><span>
+                            Reportes
+                        </span></a>
+                        <ul class="collapse {{ Route::is('admin.expedientes.create') ? 'in' : '' }}">
+                            @if ($usr->can('reporte.view'))
+                                <li class="{{ Route::is('admin.reportes.create')  ? 'active' : '' }}"><a href="{{ route('admin.reportes.create') }}">Generar Reporte</a></li>
                             @endif
                         </ul>
                     </li>
