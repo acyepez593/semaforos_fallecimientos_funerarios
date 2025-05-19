@@ -86,6 +86,26 @@ class ReportesController extends Controller
 
         ini_set('memory_limit', '-1'); // anula el limite 
 
+        $expedientes = Expediente::all();
+        $semaforos = Semaforo::where('id',">",1)->get();
+        $fecha_acutual = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now()->format('Y-m-d'). ' 00:00:00');
+
+        foreach($expedientes as $expediente){
+            //determinar a que semaforización pertenece
+            $fecha_maxima_respuesta = Carbon::createFromFormat('Y-m-d H:i:s', $expediente->fecha_maxima_respuesta. ' 00:00:00');
+            $diferencia_dias = $fecha_acutual->diffInDays($fecha_maxima_respuesta);
+            $expediente->semaforo_id = 1;
+
+            if($expediente->observaciones == null && $expediente->observaciones == ""){
+                foreach($semaforos as $semaforo){
+                    if($semaforo->rango_inicial <= $diferencia_dias && $diferencia_dias <= $semaforo->rango_final){
+                        $expediente->semaforo_id = $semaforo->id;
+                        $expediente->save();
+                    }
+                }
+            }
+        }
+
         $expedientes = Expediente::where('id',">",0);
 
         $filtroVictimaSearch = $request->victima_search;
