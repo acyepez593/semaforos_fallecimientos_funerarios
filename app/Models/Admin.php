@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
 
 class Admin extends Authenticatable
 {
@@ -78,4 +79,5 @@ class Admin extends Authenticatable
         }
         return $hasPermission;
     }
+
 }
