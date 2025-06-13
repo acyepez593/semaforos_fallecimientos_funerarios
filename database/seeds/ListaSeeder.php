@@ -22,7 +22,7 @@ class ListaSeeder extends Seeder
         }
 
         // Estados
-        $Estados = ['PAGADO','EN TRÁMITE','DESISTIMIENTO','ABANDONO','INPROCEDENCIA'];
+        $Estados = ['PAGADO','EN TRÁMITE','DESISTIMIENTO','ABANDONO','INPROCEDENCIA','SUSPENDIDO'];
         foreach ($Estados as $value) {
             Estado::create(['nombre' => $value]);
         }

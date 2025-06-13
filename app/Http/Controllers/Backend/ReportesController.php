@@ -83,7 +83,7 @@ class ReportesController extends Controller
             $diferencia_dias = $fecha_acutual->diffInDays($fecha_maxima_respuesta);
             $expediente->semaforo_id = 1;
 
-            if($expediente->observaciones == null && $expediente->observaciones == ""){
+            if($expediente->observaciones == null && $expediente->observaciones == "" && $expediente->es_historico == false){
                 foreach($semaforos as $semaforo){
                     if($semaforo->rango_inicial <= $diferencia_dias && $diferencia_dias <= $semaforo->rango_final){
                         $expediente->semaforo_id = $semaforo->id;

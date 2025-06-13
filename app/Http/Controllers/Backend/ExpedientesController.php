@@ -40,7 +40,7 @@ class ExpedientesController extends Controller
             $diferencia_dias = $fecha_acutual->diffInDays($fecha_maxima_respuesta);
             $expediente->semaforo_id = 1;
 
-            if($expediente->observaciones == null && $expediente->observaciones == ""){
+            if($expediente->observaciones == null && $expediente->observaciones == "" && $expediente->es_historico == false){
                 foreach($semaforos as $semaforo){
                     if($semaforo->rango_inicial <= $diferencia_dias && $diferencia_dias <= $semaforo->rango_final){
                         $expediente->semaforo_id = $semaforo->id;
@@ -175,7 +175,7 @@ class ExpedientesController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['expediente.edit']);
 
-        $creado_por_id = Auth::id();
+        $usuario_actual_id = Auth::id();
 
         $fecha_notificacion = Carbon::createFromFormat('Y-m-d', $request->fecha_notificacion);
 
@@ -210,7 +210,7 @@ class ExpedientesController extends Controller
         }
         $expediente->tipo_ingreso_id = $request->tipo_ingreso_id;
         $expediente->fecha_ingreso_expediente = $request->fecha_ingreso_expediente;
-        //$expediente->creado_por_id = $creado_por_id;
+        $expediente->actualizado_por_id = $usuario_actual_id;
         $expediente->save();
 
         session()->flash('success', 'Expediente ha sido actualizado satisfactoriamente.');

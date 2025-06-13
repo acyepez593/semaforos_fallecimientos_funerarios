@@ -39,6 +39,8 @@ return new class extends Migration
             $table->date('fecha_ingreso_expediente')->nullable();
             $table->unsignedBigInteger('creado_por_id');
             $table->index('creado_por_id');
+            $table->unsignedBigInteger('actualizado_por_id')->nullable();
+            $table->index('actualizado_por_id');
             $table->boolean('es_historico')->default(false);
             $table->softDeletes();
             $table->timestamps();

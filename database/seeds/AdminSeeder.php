@@ -24,6 +24,105 @@ class AdminSeeder extends Seeder
             $admin->save();
         }
 
+        $admin = Admin::where('username', 'diana.betun')->first();
+
+        if (is_null($admin)) {
+            $admin           = new Admin();
+            $admin->name     = "DIANA BETUN";
+            $admin->email    = "diana.betun@sppat.gob.ec";
+            $admin->username = "diana.betun";
+            $admin->password = Hash::make('diana.betun123');
+            $admin->save();
+        }
+
+        $admin = Admin::where('username', 'gabriela.romero')->first();
+
+        if (is_null($admin)) {
+            $admin           = new Admin();
+            $admin->name     = "GABRIELA ROMERO";
+            $admin->email    = "gabriela.romero@sppat.gob.ec";
+            $admin->username = "gabriela.romero";
+            $admin->password = Hash::make('gabriela.romero123');
+            $admin->save();
+        }
+
+        $admin = Admin::where('username', 'gilda.saker')->first();
+
+        if (is_null($admin)) {
+            $admin           = new Admin();
+            $admin->name     = "GILDA SAKER";
+            $admin->email    = "gilda.saker@sppat.gob.ec";
+            $admin->username = "gilda.saker";
+            $admin->password = Hash::make('gilda.saker123');
+            $admin->save();
+        }
+
+        $admin = Admin::where('username', 'mateo.alarcon')->first();
+
+        if (is_null($admin)) {
+            $admin           = new Admin();
+            $admin->name     = "MATEO ALARCON";
+            $admin->email    = "mateo.alarcon@sppat.gob.ec";
+            $admin->username = "mateo.alarcon";
+            $admin->password = Hash::make('mateo.alarcon123');
+            $admin->save();
+        }
+
+        $admin = Admin::where('username', 'mercedes.tapia')->first();
+
+        if (is_null($admin)) {
+            $admin           = new Admin();
+            $admin->name     = "MERCEDES TAPIA";
+            $admin->email    = "mercedes.tapia@sppat.gob.ec";
+            $admin->username = "mercedes.tapia";
+            $admin->password = Hash::make('mercedes.tapia123');
+            $admin->save();
+        }
+
+        $admin = Admin::where('username', 'nicole.riofrio')->first();
+
+        if (is_null($admin)) {
+            $admin           = new Admin();
+            $admin->name     = "NICOLE RIOFRIO";
+            $admin->email    = "nicole.riofrio@sppat.gob.ec";
+            $admin->username = "nicole.riofrio";
+            $admin->password = Hash::make('nicole.riofrio123');
+            $admin->save();
+        }
+
+        $admin = Admin::where('username', 'rebeca.serrano')->first();
+
+        if (is_null($admin)) {
+            $admin           = new Admin();
+            $admin->name     = "REBECA SERRANO";
+            $admin->email    = "rebeca.serrano@sppat.gob.ec";
+            $admin->username = "rebeca.serrano";
+            $admin->password = Hash::make('rebeca.serrano123');
+            $admin->save();
+        }
+
+        $admin = Admin::where('username', 'sandra.caiza')->first();
+
+        if (is_null($admin)) {
+            $admin           = new Admin();
+            $admin->name     = "SANDRA CAIZA";
+            $admin->email    = "sandra.caiza@sppat.gob.ec";
+            $admin->username = "sandra.caiza";
+            $admin->password = Hash::make('sandra.caiza123');
+            $admin->save();
+        }
+
+        $admin = Admin::where('username', 'jaime.aguilar')->first();
+
+        if (is_null($admin)) {
+            $admin           = new Admin();
+            $admin->name     = "JAIME AGUILAR";
+            $admin->email    = "jaime.aguilar@sppat.gob.ec";
+            $admin->username = "jaime.aguilar";
+            $admin->password = Hash::make('jaime.aguilar123');
+            $admin->save();
+        }
+
         $admin = Admin::where('username', 'camila.toala')->first();
 
         if (is_null($admin)) {
